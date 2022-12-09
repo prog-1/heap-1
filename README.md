@@ -3,16 +3,21 @@
 Assume a min heap is defined based on a slice as follows:
 
 ```golang
-type heap []int
+type Heap []int
+
+// Push pushes the element x onto the heap.
+// The complexity is O(log n) where n = h.Len().
+func (h *Heap) Push(x int)
+// Pop removes and returns the minimum element (according to Less) from the heap.
+// The complexity is O(log n) where n = h.Len().
+func (h *Heap) Pop() int
+// Len returns the number of elements in the collection.
+func (h *Heap) Len() int { return len(*h) }
 ```
 
+Implement necessary functions.
+
 > NOTE: The following invariant is maintained in the min heap: `h[parent(i)] <= h[i]`
-
-Implement `func (h *heap) push(x int)` function that pushes the element `x` into
-the heap. The time complexity must be $O(\log n)$, where $n$ is the size of the
-heap.
-
-Implement `func (h *heap) pop() int` function that removes and returns the minimum element from the heap. The time complexity must be $O(\log n)$, where $n$ is the size of the heap.
 
 ## Example
 
