@@ -11,17 +11,28 @@ func (h *Heap) Push(x int)
 // Pop removes and returns the minimum element (according to Less) from the heap.
 // The complexity is O(log n) where n = h.Len().
 func (h *Heap) Pop() int
-// Len returns the number of elements in the collection.
-func (h *Heap) Len() int { return len(*h) }
 ```
 
 Implement `Heap.Push` and `Heap.Pop` functions.
 
-> NOTE: The following invariant is maintained in the min heap: `h[parent(i)] <= h[i]`
+> **Note**
+> The following invariant is maintained in the min heap: `h[parent(i)] <= h[i]`
 
 ## Example
 
-Assume a heap is represented by the following slice: `[1 3 9 7 5]`.
+Assume a heap is represented by the following slice: `[1 3 9 7 5]` produced by these calls:
+
+```go
+var h Heap
+h.Push(1)
+h.Push(3)
+h.Push(9)
+h.Push(7)
+h.Push(5)
+```
+
+> **Note**
+> You do not have to make `h` a pointer - Go automatically passes pointers to method receivers.
 
 * After
 pushing `4`, the heap is represented by the following slice: `[1 3 4 7 5 9]`.
