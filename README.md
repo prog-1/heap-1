@@ -20,7 +20,7 @@ Implement `Heap.Push` and `Heap.Pop` functions.
 
 ## Example
 
-Assume a heap is represented by the following slice: `[1 3 9 7 5]` produced by these calls:
+Assume a heap is represented by the following slice: `[1 3 9 7 5]` produced by these calls (any other call order should end up having the same heap representation):
 
 ```go
 var h Heap
