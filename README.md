@@ -15,7 +15,7 @@ func (h *Heap) Pop() int
 func (h *Heap) Len() int { return len(*h) }
 ```
 
-Implement necessary functions.
+Implement `Heap.Push` and `Heap.Pop` functions.
 
 > NOTE: The following invariant is maintained in the min heap: `h[parent(i)] <= h[i]`
 
