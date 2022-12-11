@@ -64,8 +64,7 @@ func (h *Heap) Pop() int {
 func IngusCoefficient(tasks []int, m int) (minIC, days int) {
 	var h Heap
 	h.Push(tasks[0])
-	curIC := 0
-	for i := 1; len(h) != 0; {
+	for i, curIC := 1, 0; len(h) != 0; {
 		for ; len(h) < m && i < len(tasks); i++ {
 			h.Push(tasks[i])
 		}
@@ -77,6 +76,21 @@ func IngusCoefficient(tasks []int, m int) (minIC, days int) {
 				curIC = min + 1
 			}
 		}
+	}
+
+	h.Push(tasks[0])
+	for i, curIC := 1, minIC; len(h) != 0; {
+		for ; len(h) < m && i < len(tasks); i++ {
+			h.Push(tasks[i])
+		}
+		for min := h[0]; min <= curIC; min = h[0] {
+			curIC++
+			h.Pop()
+			if len(h) == 0 {
+				break
+			}
+		}
+		days++
 	}
 	return minIC, days
 }
