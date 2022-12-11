@@ -123,11 +123,12 @@ func calculateDays(cofficent int, tasks []int, tasksPerDay int) int {
 	}
 	// Solve
 	for i < len(tasks) {
-		if len(heap) == 0 || heap.Pop() > cofficent {
+		if len(heap) == 0 || heap[0] > cofficent {
 			day++
 			addNewTasks(&i, tasks, &removed, &heap)
 			continue
 		}
+		heap.Pop()
 		cofficent++
 		removed++
 	}
