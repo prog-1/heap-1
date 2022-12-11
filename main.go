@@ -1,15 +1,15 @@
 package main
 
 import (
-	"fmt"
+	"math"
 )
 
 type Heap []int
 
 func main() {
-	h := Heap([]int{1, 3, 4, 7, 5, 9})
+	//h := Heap([]int{1, 3, 4, 7, 5, 9})
 	//h.Pop()
-	fmt.Println([]int(h))
+	//fmt.Println([]int(h))
 }
 
 // Push pushes the element x onto the heap.
@@ -27,39 +27,36 @@ func (h *Heap) Push(x int) {
 // Pop removes and returns the minimum element (according to Less) from the heap.
 // The complexity is O(log n) where n = h.Len().
 func (h *Heap) Pop() int {
-	// Save the root and place last element at its place
-	// If root is smaller than its children -> return
-	// Pick the smallest child and swap it with the root
-	// Do it until we are not a leaf
-	if (*h) == nil {
+	if len(*h) == 0 {
 		return 0
 	}
 	output := (*h)[0]
 	(*h)[0] = (*h)[len(*h)-1]
 	*h = (*h)[:len(*h)-1]
-
-	for i := 0; ; {
-		p := (*h)[i]
-		if (2*i + 2) > len(*h) { // No right child
-			if (2*i+1) > len(*h) || p <= (*h)[2*i+1] { // No left child or parent is greater
-				break
-			}
-			(*h)[i], (*h)[2*i+1] = (*h)[2*i+1], (*h)[i]
-			i = 2*i + 1
-		} else { // Has both children
-			l := (*h)[2*i+1]
-			r := (*h)[2*i+2]
-			if p < l && p < r {
-				break
-			}
-			if l < r {
-				(*h)[i], (*h)[2*i+1] = (*h)[2*i+1], (*h)[i]
-				i = 2*i + 1
-			} else {
-				(*h)[i], (*h)[2*i+2] = (*h)[2*i+2], (*h)[i]
-				i = 2*i + 2
-			}
-		}
+	if len(*h) == 0 {
+		return output
 	}
+
+	i := 0
+	for {
+		l, r := math.MaxInt, math.MaxInt
+		if (2*i + 1) < len(*h) { // left child exists
+			l = (*h)[2*i+1]
+		}
+		if (2*i + 2) < len(*h) { // right child exists
+			r = (*h)[2*i+2]
+		}
+		if (*h)[i] < l && (*h)[i] < r {
+			break
+		}
+		p := i
+		if l <= r {
+			i = 2*i + 1
+		} else {
+			i = 2*i + 2
+		}
+		(*h)[p], (*h)[i] = (*h)[i], (*h)[p]
+	}
+
 	return output
 }
