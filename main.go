@@ -29,7 +29,7 @@ func (h *Heap) Pop() int {
 	if len(*h) == 0 {
 		return 0
 	}
-
+	tmp := (*h)[0]
 	(*h)[i], (*h)[len(*h)-1] = (*h)[len(*h)-1], (*h)[i]
 	*h = (*h)[:len(*h)-1]
 
@@ -50,10 +50,7 @@ func (h *Heap) Pop() int {
 		}
 		break
 	}
-	if len(*h) == 0 {
-		return 0
-	}
-	return (*h)[0]
+	return tmp
 }
 
 func MinIK(uzd []int, m int) int {
