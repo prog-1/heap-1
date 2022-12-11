@@ -71,6 +71,7 @@ func TestIngusCoefficient(t *testing.T) {
 	}{
 		{"1", Input{[]int{3, 1, 7, 2, 6, 3}, 3}, Want{2, 3}},
 		{"2", Input{[]int{7, 6, 5, 4, 3}, 9}, Want{3, 1}},
+		{"3", Input{[]int{28, 59, 87, 19, 19, 17, 69, 72}, 4}, Want{80, 3}},
 	} {
 		gotMiic, gotDays := IngusCoefficient(tc.input.complexities, tc.input.mit)
 		if gotMiic != tc.want.miic {

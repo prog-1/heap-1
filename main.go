@@ -8,8 +8,7 @@ import (
 type Heap []int
 
 func main() {
-	fmt.Println(IngusCoefficient([]int{3, 1, 7, 2, 6, 3}, 3)) // 2 3
-	//fmt.Println(IngusCoefficient([]int{7, 6, 5, 4, 3}, 9)) // 3 1
+	fmt.Println(IngusCoefficient(processInput()))
 }
 
 // Push pushes the element x onto the heap.
@@ -61,36 +60,41 @@ func (h *Heap) Pop() int {
 	return output
 }
 
+func processInput() (tasks []int, m int) {
+	var taskCount int
+	fmt.Scanln(&taskCount, &m)
+	tasks = make([]int, taskCount)
+	for i := range tasks {
+		fmt.Scan(&tasks[i])
+	}
+	return tasks, m
+}
+
 func IngusCoefficient(tasks []int, m int) (minIC, days int) {
 	var h Heap
-	h.Push(tasks[0])
-	for i, curIC := 1, 0; len(h) != 0; {
+	for i, curIC := 0, 0; len(h) != 0 || i < len(tasks); {
 		for ; len(h) < m && i < len(tasks); i++ {
 			h.Push(tasks[i])
 		}
-		for min := h.Pop(); len(h) > 0; min = h.Pop() {
-			if min <= curIC { // can solve
-				curIC++
-			} else { // can't solve
-				minIC = minIC + (min - curIC)
-				curIC = min + 1
-			}
+		prev := len(h)
+		for ; len(h) > 0 && h[0] <= curIC; curIC++ {
+			h.Pop()
+		}
+		if len(h) == prev { // solved nothing
+			minIC = minIC + (h[0] - curIC)
+			curIC = h[0]
 		}
 	}
 
-	h.Push(tasks[0])
-	for i, curIC := 1, minIC; len(h) != 0; {
+	for i, curIC := 0, minIC; len(h) != 0 || i < len(tasks); {
 		for ; len(h) < m && i < len(tasks); i++ {
 			h.Push(tasks[i])
 		}
-		for min := h[0]; min <= curIC; min = h[0] {
-			curIC++
+		for ; len(h) > 0 && h[0] <= curIC; curIC++ {
 			h.Pop()
-			if len(h) == 0 {
-				break
-			}
 		}
 		days++
 	}
+
 	return minIC, days
 }
