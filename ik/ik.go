@@ -93,18 +93,18 @@ func main() {
 
 func findIngusCofficent(tasks []int, tasksPerDay int) int {
 	var ik, startIK, i int
-	var BST Heap
+	var heap Heap
 	for ; i < tasksPerDay; i++ {
-		BST.Push(tasks[i])
+		heap.Push(tasks[i])
 	}
-	for len(BST) != 0 {
+	for len(heap) != 0 {
 
-		if d := BST.Pop() - ik; d > 0 {
+		if d := heap.Pop() - ik; d > 0 {
 			startIK += d
 			ik += d
 		}
 		if i < len(tasks) {
-			BST.Push(tasks[i])
+			heap.Push(tasks[i])
 			i++
 		}
 		ik++
@@ -116,16 +116,16 @@ func calculateDays(cofficent int, tasks []int, tasksPerDay int) int {
 
 	//Init
 	var day, i int
-	var BST Heap
+	var heap Heap
 	var removed int
 	for ; i < tasksPerDay; i++ {
-		BST.Push(tasks[i])
+		heap.Push(tasks[i])
 	}
 	// Solve
 	for i < len(tasks) {
-		if len(BST) == 0 || BST.Pop() > cofficent {
+		if len(heap) == 0 || heap.Pop() > cofficent {
 			day++
-			addNewTasks(&i, tasks, &removed, &BST)
+			addNewTasks(&i, tasks, &removed, &heap)
 			continue
 		}
 		cofficent++
@@ -135,9 +135,9 @@ func calculateDays(cofficent int, tasks []int, tasksPerDay int) int {
 	return day + 1
 }
 
-func addNewTasks(i *int, tasks []int, removed *int, BST *Heap) {
+func addNewTasks(i *int, tasks []int, removed *int, heap *Heap) {
 	for ; *removed != 0 && *i < len(tasks); *removed-- {
-		BST.Push(tasks[*i])
+		heap.Push(tasks[*i])
 		*i++
 	}
 }
