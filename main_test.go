@@ -23,3 +23,22 @@ func TestPush(t *testing.T) {
 		}
 	}
 }
+
+func TestPop(t *testing.T) {
+	for _, tc := range []struct {
+		name     string
+		h        Heap
+		wantMin  int
+		wantHeap Heap
+	}{
+		{"nil", nil, 0, nil},
+		{"1", []int{1, 3, 4, 7, 5, 9}, 1, []int{3, 5, 4, 7, 9}},
+	} {
+		if got := tc.h.Pop(); got != tc.wantMin {
+			t.Errorf("Incorrect output: got = %v, want = %v", got, tc.wantMin)
+		}
+		if !reflect.DeepEqual(tc.h, tc.wantHeap) {
+			t.Errorf("Incorrect heap order: got = %v, want = %v", tc.h, tc.wantHeap)
+		}
+	}
+}
