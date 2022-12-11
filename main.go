@@ -1,15 +1,15 @@
 package main
 
 import (
+	"fmt"
 	"math"
 )
 
 type Heap []int
 
 func main() {
-	//h := Heap([]int{1, 3, 4, 7, 5, 9})
-	//h.Pop()
-	//fmt.Println([]int(h))
+	fmt.Println(IngusCoefficient([]int{3, 1, 7, 2, 6, 3}, 3)) // 2 3
+	//fmt.Println(IngusCoefficient([]int{7, 6, 5, 4, 3}, 9)) // 3 1
 }
 
 // Push pushes the element x onto the heap.
@@ -28,7 +28,7 @@ func (h *Heap) Push(x int) {
 // The complexity is O(log n) where n = h.Len().
 func (h *Heap) Pop() int {
 	if len(*h) == 0 {
-		return 0
+		panic("Popping element from an empty Heap")
 	}
 	output := (*h)[0]
 	(*h)[0] = (*h)[len(*h)-1]
@@ -59,4 +59,24 @@ func (h *Heap) Pop() int {
 	}
 
 	return output
+}
+
+func IngusCoefficient(tasks []int, m int) (minIC, days int) {
+	var h Heap
+	h.Push(tasks[0])
+	curIC := 0
+	for i := 1; len(h) != 0; {
+		for ; len(h) < m && i < len(tasks); i++ {
+			h.Push(tasks[i])
+		}
+		for min := h.Pop(); len(h) > 0; min = h.Pop() {
+			if min <= curIC { // can solve
+				curIC++
+			} else { // can't solve
+				minIC = minIC + (min - curIC)
+				curIC = min + 1
+			}
+		}
+	}
+	return minIC, days
 }
